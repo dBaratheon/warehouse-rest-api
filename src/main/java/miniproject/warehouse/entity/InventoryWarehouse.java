@@ -13,12 +13,13 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "inventory_warehouse")
+@Table(name = "inventory_warehouses")
 public class InventoryWarehouse {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private Long quantity;
+    @Column(name = "last_updated")
+    private Timestamp lastUpdated;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "goods_id")
@@ -28,7 +29,7 @@ public class InventoryWarehouse {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Warehouse warehouse;
 }

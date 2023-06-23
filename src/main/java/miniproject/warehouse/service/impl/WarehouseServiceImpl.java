@@ -19,15 +19,14 @@ public class WarehouseServiceImpl implements WarehouseService {
     WarehouseRepository warehouseRepository;
     @Override
     public Warehouse createWarehouse(Warehouse warehouse) {
-        if (!StringUtils.hasText(warehouse.getId())){
-            throw new BadRequestException("id must be filled");
-        }
         if (!StringUtils.hasText(warehouse.getName())){
             throw new BadRequestException("name must be filled");
         }
         if (!StringUtils.hasText(warehouse.getLocation())) {
             throw new BadRequestException("location must be filled");
         }
+        warehouse.setId("wh"+warehouseRepository.count()+1);
+        warehouse.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return warehouseRepository.save(warehouse);
     }
 
@@ -50,6 +49,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         if (warehouse.getLocation() != null) {
             original.setLocation(warehouse.getLocation());
         }
+        original.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return warehouseRepository.save(original);
     }
 

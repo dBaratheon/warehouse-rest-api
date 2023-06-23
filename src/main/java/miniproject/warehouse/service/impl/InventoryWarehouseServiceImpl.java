@@ -19,7 +19,12 @@ public class InventoryWarehouseServiceImpl implements InventoryWarehouseService 
 
     @Override
     public List<InventoryWarehouse> findByWarehouseId(String warehouseId) {
-        return inventoryWarehouseRepository.findByWarehouseId(warehouseId);
+        return inventoryWarehouseRepository.findAllByWarehouseId(warehouseId);
+    }
+
+    @Override
+    public List<InventoryWarehouse> findByGoodsId(String goodsId) {
+        return inventoryWarehouseRepository.findAllByGoodsId(goodsId);
     }
 
     @Override

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,15 +21,14 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public Store createStore(Store store) {
-        if (!StringUtils.hasText(store.getId())){
-            throw new BadRequestException("storeId must be filled");
-        }
         if (!StringUtils.hasText(store.getName())){
             throw new BadRequestException("name must be filled");
         }
         if (!StringUtils.hasText(store.getLocation())){
             throw new BadRequestException("location must be filled");
         }
+        store.setId("st"+storeRepository.count()+1);
+        store.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return storeRepository.save(store);
     }
 
@@ -50,6 +51,7 @@ public class StoreServiceImpl implements StoreService {
         if (store.getLocation() != null){
             original.setLocation(store.getLocation());
         }
+        original.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return storeRepository.save(original);
     }
 

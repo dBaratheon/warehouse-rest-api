@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,14 +19,15 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     GoodsRepository goodsRepository;
 
+    //Goods g = new Goods();
+
     @Override
     public Goods createGoods(Goods goods) {
-        if (!StringUtils.hasText(goods.getId())) {
-            throw new BadRequestException("id must be filled");
-        }
         if (!StringUtils.hasText(goods.getName())) {
-            throw new BadRequestException("name must be filler");
+            throw new BadRequestException("name must be filled");
         }
+        goods.setId("gd"+goodsRepository.count()+1);
+        goods.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return goodsRepository.save(goods);
     }
 
@@ -44,6 +47,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (goods.getName() != null) {
             original.setName(goods.getName());
         }
+        original.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return goodsRepository.save(original);
     }
 
