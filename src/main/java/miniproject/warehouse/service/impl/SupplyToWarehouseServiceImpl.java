@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class SupplyToWarehouseServiceImpl implements SupplyToWarehouseService {
@@ -60,5 +61,10 @@ public class SupplyToWarehouseServiceImpl implements SupplyToWarehouseService {
             return supplyToWarehouseRepository.save(supplyToWarehouse);
         }).orElseThrow(() -> new NotFoundException("Warehouse not found"));
         return new ResponseEntity<>(supply, HttpStatus.CREATED);
+    }
+
+    @Override
+    public List<SupplyToWarehouse> findAll() {
+        return supplyToWarehouseRepository.findAll();
     }
 }

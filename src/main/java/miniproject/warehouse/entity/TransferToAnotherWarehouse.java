@@ -23,13 +23,13 @@ public class TransferToAnotherWarehouse {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wrhid_src", referencedColumnName = "warehouse_id")
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Warehouse warehouseSrc;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wrhid_dst", referencedColumnName = "warehouse_id")
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Warehouse warehouseDst;
 

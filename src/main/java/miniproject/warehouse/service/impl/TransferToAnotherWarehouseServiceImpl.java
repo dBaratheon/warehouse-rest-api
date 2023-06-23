@@ -4,6 +4,7 @@ import miniproject.warehouse.entity.Goods;
 import miniproject.warehouse.entity.InventoryWarehouse;
 import miniproject.warehouse.entity.TransferToAnotherWarehouse;
 import miniproject.warehouse.entity.Warehouse;
+import miniproject.warehouse.exception.BadRequestException;
 import miniproject.warehouse.exception.NotFoundException;
 import miniproject.warehouse.repository.GoodsRepository;
 import miniproject.warehouse.repository.InventoryWarehouseRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TransferToAnotherWarehouseServiceImpl implements TransferToAnotherWarehouseService {
@@ -36,7 +38,9 @@ public class TransferToAnotherWarehouseServiceImpl implements TransferToAnotherW
             InventoryWarehouse inventoryWarehouseDst = inventoryWarehouseRepository.findByWarehouseAndGoods(warehouseDst, goods);
             InventoryWarehouse inventoryWarehouse = new InventoryWarehouse();
             TransferToAnotherWarehouse warehouseToWarehouse = new TransferToAnotherWarehouse();
-            if (inventoryWarehouseSrc.getQuantity() >= transfer.getQuantity()){
+            if (inventoryWarehouseSrc.getQuantity() < transfer.getQuantity()){
+                throw new BadRequestException("Your goods quantity isn't enough");
+            } else {
                 inventoryWarehouseSrc.setQuantity(inventoryWarehouseSrc.getQuantity() - transfer.getQuantity());
                 try {
                     inventoryWarehouseDst.setQuantity(inventoryWarehouseDst.getQuantity()+transfer.getQuantity());
@@ -51,10 +55,16 @@ public class TransferToAnotherWarehouseServiceImpl implements TransferToAnotherW
                 warehouseToWarehouse.setWarehouseSrc(warehouseSrc);
                 warehouseToWarehouse.setWarehouseDst(warehouseDst);
                 warehouseToWarehouse.setGoods(goods);
+                warehouseToWarehouse.setQuantity(transfer.getQuantity());
                 warehouseToWarehouse.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
             }
             return transferToAnotherWarehouseRepository.save(warehouseToWarehouse);
         }).orElseThrow(() -> new NotFoundException("Warehouse not found"));
         return new ResponseEntity<>(transferToAnotherWarehouse, HttpStatus.CREATED);
+    }
+
+    @Override
+    public List<TransferToAnotherWarehouse> findAll() {
+        return transferToAnotherWarehouseRepository.findAll();
     }
 }

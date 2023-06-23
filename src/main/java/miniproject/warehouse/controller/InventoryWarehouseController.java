@@ -19,12 +19,12 @@ public class InventoryWarehouseController {
     @Autowired
     private InventoryWarehouseService inventoryWarehouseService;
 
-    @GetMapping("/warehouse/inventory")
+    @GetMapping("/inventory/warehouse")
     public List<InventoryWarehouse> findAllInventoryWarehouse(){
         return inventoryWarehouseService.findAllInventoryWarehouse();
     }
 
-    @GetMapping("/warehouse/inventory/{warehouseId}")
+    @GetMapping("/inventory/warehouse/{warehouseId}")
     public List<InventoryWarehouse> findByWarehouseId(@PathVariable String warehouseId){
         return inventoryWarehouseService.findByWarehouseId(warehouseId);
     }

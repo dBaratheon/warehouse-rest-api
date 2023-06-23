@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class TransferToAnotherWarehouseController {
@@ -20,5 +22,10 @@ public class TransferToAnotherWarehouseController {
                                                                @PathVariable Goods goodsId,
                                                                @RequestBody TransferToAnotherWarehouse transfer){
         return transferToAnotherWarehouseService.transfer(warehouseSrc, warehouseDst, goodsId, transfer);
+    }
+
+    @GetMapping("/transfer/wtw")
+    public List<TransferToAnotherWarehouse> findAll(){
+        return transferToAnotherWarehouseService.findAll();
     }
 }

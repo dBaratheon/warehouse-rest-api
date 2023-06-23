@@ -1,13 +1,9 @@
 package miniproject.warehouse.entity;
 
 import miniproject.warehouse.entity.enums.Category;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "goods")
