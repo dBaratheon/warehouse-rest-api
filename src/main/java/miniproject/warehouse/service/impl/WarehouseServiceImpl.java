@@ -25,14 +25,14 @@ public class WarehouseServiceImpl implements WarehouseService {
         if (!StringUtils.hasText(warehouse.getLocation())) {
             throw new BadRequestException("location must be filled");
         }
-        warehouse.setId("wh"+warehouseRepository.count()+1);
+        warehouse.setId("WH"+warehouseRepository.count());
         warehouse.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return warehouseRepository.save(warehouse);
     }
 
     @Override
     public Warehouse findByWarehouseId(String warehouseId) {
-        return warehouseRepository.findById(warehouseId).orElseThrow(()-> new NotFoundException("Warehouse with id "+warehouseId+" not found!"));
+        return warehouseRepository.findById(warehouseId).orElseThrow(()-> new NotFoundException("Warehouse with id "+warehouseId+" not found"));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         return "Warehouse with id "+warehouseId+" deleted";
         }
         else {
-            return "Warehouse with id " + warehouseId + " not found!";
+            return "Warehouse with id " + warehouseId + " not found";
         }
     }
 }

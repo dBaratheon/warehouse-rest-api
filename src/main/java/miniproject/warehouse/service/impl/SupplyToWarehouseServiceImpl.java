@@ -10,7 +10,6 @@ import miniproject.warehouse.repository.InventoryWarehouseRepository;
 import miniproject.warehouse.repository.SupplyToWarehouseRepository;
 import miniproject.warehouse.repository.WarehouseRepository;
 import miniproject.warehouse.service.SupplyToWarehouseService;
-import org.hibernate.id.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Random;
-import java.util.UUID;
 
 @Service
 public class SupplyToWarehouseServiceImpl implements SupplyToWarehouseService {
@@ -39,8 +36,11 @@ public class SupplyToWarehouseServiceImpl implements SupplyToWarehouseService {
     @Override
     public ResponseEntity<SupplyToWarehouse> supplyToWarehouse(Warehouse warehouseId, Goods goodsId, SupplyToWarehouse supplyToWarehouse) {
         SupplyToWarehouse supply = warehouseRepository.findById(warehouseId.getId()).map(warehouse -> {
-            Goods goods = goodsRepository.findById(goodsId.getId()).get();
-            supplyToWarehouse.setId("sp"+(inventoryWarehouseRepository.count()+1));
+            Goods goods = goodsRepository.findById(goodsId.getId()).orElse(null);
+            if (goods == null){
+                throw new NotFoundException("Goods not found");
+            }
+            supplyToWarehouse.setId("SP"+(inventoryWarehouseRepository.count()));
             supplyToWarehouse.setWarehouse(warehouse);
             supplyToWarehouse.setGoods(goods);
             supplyToWarehouse.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
@@ -50,7 +50,7 @@ public class SupplyToWarehouseServiceImpl implements SupplyToWarehouseService {
                 inventoryWarehouseUpdate.setQuantity(inventoryWarehouseUpdate.getQuantity() + supplyToWarehouse.getQuantity());
                 inventoryWarehouseRepository.save(inventoryWarehouseUpdate);
             } catch (Exception ex){
-                inventoryWarehouse.setId("iw"+inventoryWarehouseRepository.count()+1);
+                inventoryWarehouse.setId("IW"+(inventoryWarehouseRepository.count()));
                 inventoryWarehouse.setGoods(goods);
                 inventoryWarehouse.setWarehouse(warehouse);
                 inventoryWarehouse.setQuantity(supplyToWarehouse.getQuantity());
@@ -58,7 +58,7 @@ public class SupplyToWarehouseServiceImpl implements SupplyToWarehouseService {
                 inventoryWarehouseRepository.save(inventoryWarehouse);
             }
             return supplyToWarehouseRepository.save(supplyToWarehouse);
-        }).orElseThrow(() -> new NotFoundException("Not found"));
+        }).orElseThrow(() -> new NotFoundException("Warehouse not found"));
         return new ResponseEntity<>(supply, HttpStatus.CREATED);
     }
 }

@@ -1,17 +1,12 @@
 package miniproject.warehouse.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "inventory_warehouses")
 public class InventoryWarehouse {
@@ -29,7 +24,67 @@ public class InventoryWarehouse {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_id")
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Warehouse warehouse;
+
+    public InventoryWarehouse() {
+    }
+
+    public InventoryWarehouse(Long quantity, Timestamp lastUpdated, Goods goods, Warehouse warehouse) {
+        this.quantity = quantity;
+        this.lastUpdated = lastUpdated;
+        this.goods = goods;
+        this.warehouse = warehouse;
+    }
+
+    public InventoryWarehouse(String id, Long quantity, Timestamp lastUpdated, Goods goods, Warehouse warehouse) {
+        this.id = id;
+        this.quantity = quantity;
+        this.lastUpdated = lastUpdated;
+        this.goods = goods;
+        this.warehouse = warehouse;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Long getQuantity() {
+        return quantity;
+    }
+
+
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
+
+    public Timestamp getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Timestamp lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
 }

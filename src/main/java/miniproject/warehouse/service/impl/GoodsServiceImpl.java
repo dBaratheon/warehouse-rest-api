@@ -1,6 +1,7 @@
 package miniproject.warehouse.service.impl;
 
 import miniproject.warehouse.entity.Goods;
+import miniproject.warehouse.entity.enums.Category;
 import miniproject.warehouse.exception.BadRequestException;
 import miniproject.warehouse.exception.NotFoundException;
 import miniproject.warehouse.repository.GoodsRepository;
@@ -19,21 +20,22 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     GoodsRepository goodsRepository;
 
-    //Goods g = new Goods();
-
     @Override
     public Goods createGoods(Goods goods) {
         if (!StringUtils.hasText(goods.getName())) {
-            throw new BadRequestException("name must be filled");
+            throw new BadRequestException("Name must be filled");
         }
-        goods.setId("gd"+goodsRepository.count()+1);
+        if (goods.getCategory() == null) {
+            throw new BadRequestException("Category can't be null");
+        }
+        goods.setId("GD" + goodsRepository.count());
         goods.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return goodsRepository.save(goods);
     }
 
     @Override
     public Goods findByGoodsId(String goodsId) {
-        return goodsRepository.findById(goodsId).orElseThrow(() -> new NotFoundException("Goods with id " + goodsId + " not found!"));
+        return goodsRepository.findById(goodsId).orElseThrow(() -> new NotFoundException("Goods with id " + goodsId + " not found"));
     }
 
     @Override
@@ -57,7 +59,12 @@ public class GoodsServiceImpl implements GoodsService {
             goodsRepository.deleteById(goodsId);
             return "Goods with id " + goodsId + " deleted";
         } else {
-            return "Goods with id " + goodsId + " not found!";
+            return "Goods with id " + goodsId + " not found";
         }
+    }
+
+    @Override
+    public List<Goods> findAllByCategory(Category category) {
+        return goodsRepository.findAllByCategory(category);
     }
 }

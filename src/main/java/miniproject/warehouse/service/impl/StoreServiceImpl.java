@@ -27,7 +27,7 @@ public class StoreServiceImpl implements StoreService {
         if (!StringUtils.hasText(store.getLocation())){
             throw new BadRequestException("location must be filled");
         }
-        store.setId("st"+storeRepository.count()+1);
+        store.setId("ST"+storeRepository.count());
         store.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return storeRepository.save(store);
     }
@@ -59,10 +59,10 @@ public class StoreServiceImpl implements StoreService {
     public String deleteStore(String storeId) {
         if (storeRepository.existsById(storeId)){
             storeRepository.deleteById(storeId);
-            return "Warehouse with id "+storeId+" deleted";
+            return "Store with id "+storeId+" deleted";
         }
         else {
-            return "Warehouse with id " + storeId + " not found!";
+            return "Store with id " + storeId + " not found!";
         }
     }
 }

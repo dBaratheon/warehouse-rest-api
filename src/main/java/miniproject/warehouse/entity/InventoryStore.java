@@ -1,21 +1,10 @@
 package miniproject.warehouse.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.List;
-
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "inventory_store")
 public class InventoryStore {
@@ -35,4 +24,51 @@ public class InventoryStore {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Store store;
+
+    public InventoryStore(){}
+
+    public InventoryStore(Long quantity, Goods goods, Store store) {
+        Quantity = quantity;
+        this.goods = goods;
+        this.store = store;
+    }
+
+    public InventoryStore(Long id, Long quantity, Goods goods, Store store) {
+        this.id = id;
+        Quantity = quantity;
+        this.goods = goods;
+        this.store = store;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(Long quantity) {
+        Quantity = quantity;
+    }
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
 }

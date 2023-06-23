@@ -1,9 +1,8 @@
 package miniproject.warehouse.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import miniproject.warehouse.entity.enums.Category;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -19,6 +18,8 @@ public class Goods {
     private String name;
     @Column(name = "created_at")
     private Timestamp createdAt;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     public Goods(){}
 
@@ -47,6 +48,14 @@ public class Goods {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Timestamp getCreatedAt() {
