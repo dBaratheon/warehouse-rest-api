@@ -1,5 +1,6 @@
 package miniproject.warehouse.service.impl;
 
+import miniproject.warehouse.entity.InventoryStore;
 import miniproject.warehouse.entity.Warehouse;
 import miniproject.warehouse.exception.BadRequestException;
 import miniproject.warehouse.exception.NotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.util.StringUtils;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
@@ -25,19 +27,23 @@ public class WarehouseServiceImpl implements WarehouseService {
         if (!StringUtils.hasText(warehouse.getLocation())) {
             throw new BadRequestException("location must be filled");
         }
-        warehouse.setId("WH"+warehouseRepository.count());
+        warehouse.setId(UUID.randomUUID().toString());
         warehouse.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return warehouseRepository.save(warehouse);
     }
 
     @Override
     public Warehouse findByWarehouseId(String warehouseId) {
-        return warehouseRepository.findById(warehouseId).orElseThrow(()-> new NotFoundException("Warehouse with id "+warehouseId+" not found"));
+        return warehouseRepository.findById(warehouseId).orElseThrow(()-> new NotFoundException("Warehouse id not found"));
     }
 
     @Override
     public List<Warehouse> findAllWarehouse() {
-        return warehouseRepository.findAll();
+        List<Warehouse> warehouses = warehouseRepository.findAll();
+        if (warehouses.isEmpty()){
+            throw new NotFoundException("Warehouse is empty");
+        }
+        return warehouses;
     }
 
     @Override

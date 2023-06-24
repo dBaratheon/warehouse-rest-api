@@ -21,7 +21,7 @@ public class InventoryWarehouseServiceImpl implements InventoryWarehouseService 
     public List<InventoryWarehouse> findByWarehouseId(String warehouseId) {
         List<InventoryWarehouse> inventoryWarehouseList = inventoryWarehouseRepository.findAllByWarehouseId(warehouseId);
         if (inventoryWarehouseList.isEmpty()){
-            throw new NotFoundException("Warehouse id "+warehouseId+" not found");
+            throw new NotFoundException("Warehouse id not found");
         }
         return inventoryWarehouseList;
     }
@@ -30,7 +30,7 @@ public class InventoryWarehouseServiceImpl implements InventoryWarehouseService 
     public List<InventoryWarehouse> findByGoodsId(String goodsId) {
         List<InventoryWarehouse> inventoryWarehouseList = inventoryWarehouseRepository.findAllByGoodsId(goodsId);
         if (inventoryWarehouseList.isEmpty()){
-            throw new NotFoundException("Goods id "+goodsId+" not found");
+            throw new NotFoundException("Goods id not found");
         }
         return inventoryWarehouseList;
     }

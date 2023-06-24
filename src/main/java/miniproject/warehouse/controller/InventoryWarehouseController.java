@@ -28,4 +28,9 @@ public class InventoryWarehouseController {
     public List<InventoryWarehouse> findByWarehouseId(@PathVariable String warehouseId){
         return inventoryWarehouseService.findByWarehouseId(warehouseId);
     }
+
+    @GetMapping("/inventory/warehouse/goods/{goodsId}")
+    public List<InventoryWarehouse> findByGoodsId(@PathVariable String goodsId){
+        return inventoryWarehouseService.findByGoodsId(goodsId);
+    }
 }

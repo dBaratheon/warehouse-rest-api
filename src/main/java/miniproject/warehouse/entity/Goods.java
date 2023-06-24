@@ -19,15 +19,11 @@ public class Goods {
 
     public Goods(){}
 
-    public Goods(String name, Timestamp createdAt) {
-        this.name = name;
-        this.createdAt = createdAt;
-    }
-
-    public Goods(String id, String name, Timestamp createdAt) {
+    public Goods(String id, String name, Timestamp createdAt, Category category) {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;
+        this.category = category;
     }
 
     public String getId() {

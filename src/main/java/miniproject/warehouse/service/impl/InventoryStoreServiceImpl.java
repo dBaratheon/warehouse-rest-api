@@ -30,7 +30,7 @@ public class InventoryStoreServiceImpl implements InventoryStoreService {
     public List<InventoryStore> findByStoreId(String storeId) {
             List<InventoryStore> inventoryStoreList = inventoryStoreRepository.findAllByStoreId(storeId);
             if (inventoryStoreList.isEmpty()){
-                throw new NotFoundException("Store id "+storeId+" not found");
+                throw new NotFoundException("Store id not found");
             }
             return inventoryStoreList;
     }
@@ -39,7 +39,7 @@ public class InventoryStoreServiceImpl implements InventoryStoreService {
     public List<InventoryStore> findByGoodsId(String goodsId) {
         List<InventoryStore> inventoryStoreList = inventoryStoreRepository.findAllByGoodsId(goodsId);
         if (inventoryStoreList.isEmpty()){
-            throw new NotFoundException("Goods id "+goodsId+" not found");
+            throw new NotFoundException("Goods id not found");
         }
         return inventoryStoreList;
     }

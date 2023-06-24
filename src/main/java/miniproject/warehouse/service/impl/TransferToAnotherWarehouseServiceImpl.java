@@ -49,9 +49,9 @@ public class TransferToAnotherWarehouseServiceImpl implements TransferToAnotherW
                     inventoryWarehouse.setGoods(goods);
                     inventoryWarehouse.setWarehouse(warehouseDst);
                     inventoryWarehouse.setQuantity(transfer.getQuantity());
+                    inventoryWarehouse.setLastUpdated(Timestamp.valueOf(LocalDateTime.now()));
                     inventoryWarehouseRepository.save(inventoryWarehouse);
                 }
-                warehouseToWarehouse.setId("WTW" + (transferToAnotherWarehouseRepository.count()));
                 warehouseToWarehouse.setWarehouseSrc(warehouseSrc);
                 warehouseToWarehouse.setWarehouseDst(warehouseDst);
                 warehouseToWarehouse.setGoods(goods);

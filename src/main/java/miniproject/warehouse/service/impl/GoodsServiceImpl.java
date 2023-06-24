@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class GoodsServiceImpl implements GoodsService {
@@ -28,14 +29,14 @@ public class GoodsServiceImpl implements GoodsService {
         if (goods.getCategory() == null) {
             throw new BadRequestException("Category can't be null");
         }
-        goods.setId("GD" + goodsRepository.count());
+        goods.setId(UUID.randomUUID().toString());
         goods.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return goodsRepository.save(goods);
     }
 
     @Override
     public Goods findByGoodsId(String goodsId) {
-        return goodsRepository.findById(goodsId).orElseThrow(() -> new NotFoundException("Goods with id " + goodsId + " not found"));
+        return goodsRepository.findById(goodsId).orElseThrow(() -> new NotFoundException("Goods id not found"));
     }
 
     @Override

@@ -11,7 +11,8 @@ import java.sql.Timestamp;
 @Table(name = "inventory_stores")
 public class InventoryStore {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Long quantity;
     @Column(name = "last_updated")
     private Timestamp lastUpdated;
@@ -37,7 +38,7 @@ public class InventoryStore {
         this.store = store;
     }
 
-    public InventoryStore(String id, Long quantity, Timestamp lastUpdated, Goods goods, Store store) {
+    public InventoryStore(Long id, Long quantity, Timestamp lastUpdated, Goods goods, Store store) {
         this.id = id;
         this.quantity = quantity;
         this.lastUpdated = lastUpdated;
@@ -45,11 +46,11 @@ public class InventoryStore {
         this.store = store;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

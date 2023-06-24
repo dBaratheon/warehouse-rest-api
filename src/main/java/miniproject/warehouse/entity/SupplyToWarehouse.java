@@ -11,7 +11,8 @@ import java.sql.Timestamp;
 @Table(name = "supply_to_warehouse")
 public class SupplyToWarehouse {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Long quantity;
     @Column(name = "created_at")
     private Timestamp createdAt;
@@ -30,7 +31,14 @@ public class SupplyToWarehouse {
 
     public SupplyToWarehouse(){}
 
-    public SupplyToWarehouse(String id, Long quantity, Timestamp createdAt, Goods goods, Warehouse warehouse) {
+    public SupplyToWarehouse(Long quantity, Timestamp createdAt, Goods goods, Warehouse warehouse) {
+        this.quantity = quantity;
+        this.createdAt = createdAt;
+        this.goods = goods;
+        this.warehouse = warehouse;
+    }
+
+    public SupplyToWarehouse(Long id, Long quantity, Timestamp createdAt, Goods goods, Warehouse warehouse) {
         this.id = id;
         this.quantity = quantity;
         this.createdAt = createdAt;
@@ -38,11 +46,11 @@ public class SupplyToWarehouse {
         this.warehouse = warehouse;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

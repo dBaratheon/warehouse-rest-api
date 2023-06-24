@@ -16,12 +16,6 @@ public class Store {
 
     public Store(){}
 
-    public Store(String name, String location, Timestamp createdAt) {
-        this.name = name;
-        this.location = location;
-        this.createdAt = createdAt;
-    }
-
     public Store(String id, String name, String location, Timestamp createdAt) {
         this.id = id;
         this.name = name;

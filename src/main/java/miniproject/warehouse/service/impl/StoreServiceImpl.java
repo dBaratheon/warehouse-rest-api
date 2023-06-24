@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class StoreServiceImpl implements StoreService {
@@ -27,14 +28,14 @@ public class StoreServiceImpl implements StoreService {
         if (!StringUtils.hasText(store.getLocation())){
             throw new BadRequestException("location must be filled");
         }
-        store.setId("ST"+storeRepository.count());
+        store.setId(UUID.randomUUID().toString());
         store.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return storeRepository.save(store);
     }
 
     @Override
     public Store findByStoreId(String storeId) {
-        return storeRepository.findById(storeId).orElseThrow(() -> new NotFoundException("Store with id "+storeId+" not found!"));
+        return storeRepository.findById(storeId).orElseThrow(() -> new NotFoundException("Store id not found!"));
     }
 
     @Override

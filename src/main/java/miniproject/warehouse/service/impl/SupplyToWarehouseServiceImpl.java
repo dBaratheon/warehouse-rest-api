@@ -41,7 +41,6 @@ public class SupplyToWarehouseServiceImpl implements SupplyToWarehouseService {
             if (goods == null){
                 throw new NotFoundException("Goods not found");
             }
-            supplyToWarehouse.setId("SP"+(inventoryWarehouseRepository.count()));
             supplyToWarehouse.setWarehouse(warehouse);
             supplyToWarehouse.setGoods(goods);
             supplyToWarehouse.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
@@ -51,7 +50,6 @@ public class SupplyToWarehouseServiceImpl implements SupplyToWarehouseService {
                 inventoryWarehouseUpdate.setQuantity(inventoryWarehouseUpdate.getQuantity() + supplyToWarehouse.getQuantity());
                 inventoryWarehouseRepository.save(inventoryWarehouseUpdate);
             } catch (Exception ex){
-                inventoryWarehouse.setId("IW"+(inventoryWarehouseRepository.count()));
                 inventoryWarehouse.setGoods(goods);
                 inventoryWarehouse.setWarehouse(warehouse);
                 inventoryWarehouse.setQuantity(supplyToWarehouse.getQuantity());

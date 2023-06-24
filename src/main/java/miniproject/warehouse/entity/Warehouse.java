@@ -2,6 +2,7 @@ package miniproject.warehouse.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Entity
 @Table(name = "warehouses")
@@ -15,12 +16,6 @@ public class Warehouse {
     private Timestamp createdAt;
 
     public Warehouse(){}
-
-    public Warehouse(String name, String location, Timestamp createdAt) {
-        this.name = name;
-        this.location = location;
-        this.createdAt = createdAt;
-    }
 
     public Warehouse(String id, String name, String location, Timestamp createdAt) {
         this.id = id;

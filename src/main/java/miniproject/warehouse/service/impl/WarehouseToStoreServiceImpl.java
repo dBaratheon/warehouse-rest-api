@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,7 +46,6 @@ public class WarehouseToStoreServiceImpl implements WarehouseToStoreService {
                     inventoryStoreRepository.save(inventoryStore);
                     inventoryWarehouseRepository.save(inventoryWarehouse);
                 }catch (Exception e){
-                    newInventoryStore.setId("IS"+inventoryStoreRepository.count());
                     newInventoryStore.setStore(storeDst);
                     newInventoryStore.setGoods(goodsId);
                     newInventoryStore.setQuantity(warehouse.getQuantity());

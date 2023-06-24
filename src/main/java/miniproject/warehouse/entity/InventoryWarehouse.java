@@ -11,7 +11,8 @@ import java.sql.Timestamp;
 @Table(name = "inventory_warehouses")
 public class InventoryWarehouse {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Long quantity;
     @Column(name = "last_updated")
     private Timestamp lastUpdated;
@@ -38,7 +39,7 @@ public class InventoryWarehouse {
         this.warehouse = warehouse;
     }
 
-    public InventoryWarehouse(String id, Long quantity, Timestamp lastUpdated, Goods goods, Warehouse warehouse) {
+    public InventoryWarehouse(Long id, Long quantity, Timestamp lastUpdated, Goods goods, Warehouse warehouse) {
         this.id = id;
         this.quantity = quantity;
         this.lastUpdated = lastUpdated;
@@ -46,11 +47,11 @@ public class InventoryWarehouse {
         this.warehouse = warehouse;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
