@@ -5,13 +5,16 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+
 @Entity
-@Table(name = "inventory_store")
+@Table(name = "inventory_stores")
 public class InventoryStore {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Long Quantity;
+    private String id;
+    private Long quantity;
+    @Column(name = "last_updated")
+    private Timestamp lastUpdated;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "goods_id")
@@ -27,33 +30,43 @@ public class InventoryStore {
 
     public InventoryStore(){}
 
-    public InventoryStore(Long quantity, Goods goods, Store store) {
-        Quantity = quantity;
+    public InventoryStore(Long quantity, Timestamp lastUpdated, Goods goods, Store store) {
+        this.quantity = quantity;
+        this.lastUpdated = lastUpdated;
         this.goods = goods;
         this.store = store;
     }
 
-    public InventoryStore(Long id, Long quantity, Goods goods, Store store) {
+    public InventoryStore(String id, Long quantity, Timestamp lastUpdated, Goods goods, Store store) {
         this.id = id;
-        Quantity = quantity;
+        this.quantity = quantity;
+        this.lastUpdated = lastUpdated;
         this.goods = goods;
         this.store = store;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     public Long getQuantity() {
-        return Quantity;
+        return quantity;
     }
 
     public void setQuantity(Long quantity) {
-        Quantity = quantity;
+        this.quantity = quantity;
+    }
+
+    public Timestamp getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Timestamp lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public Goods getGoods() {

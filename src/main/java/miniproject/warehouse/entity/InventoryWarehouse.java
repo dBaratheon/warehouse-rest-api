@@ -58,8 +58,6 @@ public class InventoryWarehouse {
         return quantity;
     }
 
-
-
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }

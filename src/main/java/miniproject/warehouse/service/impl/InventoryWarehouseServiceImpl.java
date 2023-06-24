@@ -19,16 +19,28 @@ public class InventoryWarehouseServiceImpl implements InventoryWarehouseService 
 
     @Override
     public List<InventoryWarehouse> findByWarehouseId(String warehouseId) {
-        return inventoryWarehouseRepository.findAllByWarehouseId(warehouseId);
+        List<InventoryWarehouse> inventoryWarehouseList = inventoryWarehouseRepository.findAllByWarehouseId(warehouseId);
+        if (inventoryWarehouseList.isEmpty()){
+            throw new NotFoundException("Warehouse id "+warehouseId+" not found");
+        }
+        return inventoryWarehouseList;
     }
 
     @Override
     public List<InventoryWarehouse> findByGoodsId(String goodsId) {
-        return inventoryWarehouseRepository.findAllByGoodsId(goodsId);
+        List<InventoryWarehouse> inventoryWarehouseList = inventoryWarehouseRepository.findAllByGoodsId(goodsId);
+        if (inventoryWarehouseList.isEmpty()){
+            throw new NotFoundException("Goods id "+goodsId+" not found");
+        }
+        return inventoryWarehouseList;
     }
 
     @Override
     public List<InventoryWarehouse> findAllInventoryWarehouse() {
-        return inventoryWarehouseRepository.findAll();
+        List<InventoryWarehouse> inventoryWarehouseList = inventoryWarehouseRepository.findAll();
+        if (inventoryWarehouseList.isEmpty()){
+            throw new NotFoundException("Inventory is empty");
+        }
+        return inventoryWarehouseList;
     }
 }

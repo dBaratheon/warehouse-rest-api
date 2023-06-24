@@ -16,13 +16,18 @@ public class InventoryStoreController {
     @Autowired
     private InventoryStoreService inventoryStoreService;
 
-    @GetMapping("/store/inventory/{storeId}")
-    public List<InventoryStore> findByStoreId(@PathVariable String storeId){
+    @GetMapping("/inventory/store")
+    List<InventoryStore> findAll(){
+        return inventoryStoreService.findAll();
+    }
+
+    @GetMapping("/inventory/store/{storeId}")
+    List<InventoryStore> findByStoreId(@PathVariable String storeId){
         return inventoryStoreService.findByStoreId(storeId);
     }
 
-    @GetMapping("/store/inventory")
-    public List<InventoryStore> findAll(){
-        return inventoryStoreService.findAllInventoryStore();
+    @GetMapping("/inventory/store/goods/{goodsId}")
+    List<InventoryStore> findByGoodsId(@PathVariable String goodsId){
+        return inventoryStoreService.findByGoodsId(goodsId);
     }
 }
