@@ -1,15 +1,11 @@
 package miniproject.warehouse.service.impl;
 
-import miniproject.warehouse.entity.Goods;
 import miniproject.warehouse.entity.InventoryStore;
-import miniproject.warehouse.entity.Store;
 import miniproject.warehouse.exception.NotFoundException;
 import miniproject.warehouse.repository.InventoryStoreRepository;
 import miniproject.warehouse.service.InventoryStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Service

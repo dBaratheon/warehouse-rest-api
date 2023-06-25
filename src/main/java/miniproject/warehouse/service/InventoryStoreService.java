@@ -1,8 +1,6 @@
 package miniproject.warehouse.service;
 
-import miniproject.warehouse.entity.Goods;
 import miniproject.warehouse.entity.InventoryStore;
-import miniproject.warehouse.entity.Store;
 
 import java.util.List;
 

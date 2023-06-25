@@ -1,6 +1,5 @@
 package miniproject.warehouse.service.impl;
 
-import miniproject.warehouse.entity.InventoryStore;
 import miniproject.warehouse.entity.Warehouse;
 import miniproject.warehouse.exception.BadRequestException;
 import miniproject.warehouse.exception.NotFoundException;

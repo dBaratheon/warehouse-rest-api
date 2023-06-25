@@ -10,5 +10,4 @@ public interface WarehouseService {
     List<Warehouse> findAllWarehouse();
     Warehouse updateWarehouse(String warehouseId, Warehouse warehouse);
     String deleteWarehouse(String warehouseId);
-
 }

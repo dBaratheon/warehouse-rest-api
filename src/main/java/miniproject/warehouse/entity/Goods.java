@@ -1,7 +1,5 @@
 package miniproject.warehouse.entity;
 
-import miniproject.warehouse.entity.enums.Category;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -14,12 +12,11 @@ public class Goods {
     private String name;
     @Column(name = "created_at")
     private Timestamp createdAt;
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    private String category;
 
     public Goods(){}
 
-    public Goods(String id, String name, Timestamp createdAt, Category category) {
+    public Goods(String id, String name, Timestamp createdAt, String category) {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;
@@ -42,11 +39,11 @@ public class Goods {
         this.name = name;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

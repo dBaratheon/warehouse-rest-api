@@ -1,7 +1,6 @@
 package miniproject.warehouse.controller;
 
 import miniproject.warehouse.entity.Goods;
-import miniproject.warehouse.entity.enums.Category;
 import miniproject.warehouse.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +39,7 @@ public class GoodsController {
     }
 
     @GetMapping("/goods/category/{category}")
-    public List<Goods> findAllBycategory(@PathVariable Category category){
+    public List<Goods> findAllBycategory(@PathVariable String category){
         return goodsService.findAllByCategory(category);
     }
 }

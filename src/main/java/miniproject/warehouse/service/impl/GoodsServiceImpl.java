@@ -1,7 +1,6 @@
 package miniproject.warehouse.service.impl;
 
 import miniproject.warehouse.entity.Goods;
-import miniproject.warehouse.entity.enums.Category;
 import miniproject.warehouse.exception.BadRequestException;
 import miniproject.warehouse.exception.NotFoundException;
 import miniproject.warehouse.repository.GoodsRepository;
@@ -26,8 +25,8 @@ public class GoodsServiceImpl implements GoodsService {
         if (!StringUtils.hasText(goods.getName())) {
             throw new BadRequestException("Name must be filled");
         }
-        if (goods.getCategory() == null) {
-            throw new BadRequestException("Category can't be null");
+        if (!StringUtils.hasText(goods.getCategory())){
+            throw new BadRequestException("Category must be filled");
         }
         goods.setId(UUID.randomUUID().toString());
         goods.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
@@ -65,7 +64,11 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> findAllByCategory(Category category) {
-        return goodsRepository.findAllByCategory(category);
+    public List<Goods> findAllByCategory(String category) {
+        List<Goods> goodsList = goodsRepository.findAllByCategory(category);
+        if (goodsList.isEmpty()){
+            throw new NotFoundException("Category not found");
+        }
+        return goodsList;
     }
 }
