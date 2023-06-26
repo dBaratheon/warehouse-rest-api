@@ -39,14 +39,6 @@ public class InventoryWarehouse {
         this.warehouse = warehouse;
     }
 
-    public InventoryWarehouse(Long id, Long quantity, Timestamp lastUpdated, Goods goods, Warehouse warehouse) {
-        this.id = id;
-        this.quantity = quantity;
-        this.lastUpdated = lastUpdated;
-        this.goods = goods;
-        this.warehouse = warehouse;
-    }
-
     public Long getId() {
         return id;
     }

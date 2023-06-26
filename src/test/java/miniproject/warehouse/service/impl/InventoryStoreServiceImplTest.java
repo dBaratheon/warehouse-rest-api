@@ -27,7 +27,7 @@ class InventoryStoreServiceImplTest {
     }
 
     @Test
-    void findAll_ReturnsAllInventoryStores() {
+    void findAllReturnsAllInventoryStores() {
         List<InventoryStore> inventoryStoreList = new ArrayList<>();
         inventoryStoreList.add(new InventoryStore());
         inventoryStoreList.add(new InventoryStore());

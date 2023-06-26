@@ -63,7 +63,7 @@ public class StoreServiceImpl implements StoreService {
             return "Store with id "+storeId+" deleted";
         }
         else {
-            return "Store with id " + storeId + " not found!";
+            return "Store with id "+ storeId +" not found!";
         }
     }
 }

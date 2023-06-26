@@ -68,6 +68,10 @@ public class WarehouseToStoreServiceImpl implements WarehouseToStoreService {
 
     @Override
     public List<WarehouseToStore> findAll() {
-        return warehouseToStoreRepository.findAll();
+        List<WarehouseToStore> warehouseToStoreList = warehouseToStoreRepository.findAll();
+        if (warehouseToStoreList.isEmpty()){
+            throw new NotFoundException("Record is empty");
+        }
+        return warehouseToStoreList;
     }
 }

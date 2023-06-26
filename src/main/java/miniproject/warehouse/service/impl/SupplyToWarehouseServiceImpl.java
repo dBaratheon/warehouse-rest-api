@@ -24,23 +24,17 @@ public class SupplyToWarehouseServiceImpl implements SupplyToWarehouseService {
 
     @Autowired
     private SupplyToWarehouseRepository supplyToWarehouseRepository;
-
     @Autowired
     private InventoryWarehouseRepository inventoryWarehouseRepository;
-
     @Autowired
     private WarehouseRepository warehouseRepository;
-
     @Autowired
     private GoodsRepository goodsRepository;
 
     @Override
     public ResponseEntity<SupplyToWarehouse> supplyToWarehouse(Warehouse warehouseId, Goods goodsId, SupplyToWarehouse supplyToWarehouse) {
         SupplyToWarehouse supply = warehouseRepository.findById(warehouseId.getId()).map(warehouse -> {
-            Goods goods = goodsRepository.findById(goodsId.getId()).orElse(null);
-            if (goods == null){
-                throw new NotFoundException("Goods not found");
-            }
+            Goods goods = goodsRepository.findById(goodsId.getId()).get();
             supplyToWarehouse.setWarehouse(warehouse);
             supplyToWarehouse.setGoods(goods);
             supplyToWarehouse.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
@@ -63,6 +57,10 @@ public class SupplyToWarehouseServiceImpl implements SupplyToWarehouseService {
 
     @Override
     public List<SupplyToWarehouse> findAll() {
-        return supplyToWarehouseRepository.findAll();
+        List<SupplyToWarehouse> supplyToWarehouseList = supplyToWarehouseRepository.findAll();
+        if (supplyToWarehouseList.isEmpty()){
+            throw new NotFoundException("Record is empty");
+        }
+        return  supplyToWarehouseList;
     }
 }
