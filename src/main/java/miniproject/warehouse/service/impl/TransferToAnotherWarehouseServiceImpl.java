@@ -59,12 +59,16 @@ public class TransferToAnotherWarehouseServiceImpl implements TransferToAnotherW
                 warehouseToWarehouse.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
             }
             return transferToAnotherWarehouseRepository.save(warehouseToWarehouse);
-        }).orElseThrow(() -> new NotFoundException("Warehouse not found"));
+        }).orElseThrow(() -> new NotFoundException("warehouse id or goods id not found"));
         return new ResponseEntity<>(transferToAnotherWarehouse, HttpStatus.CREATED);
     }
 
     @Override
     public List<TransferToAnotherWarehouse> findAll() {
-        return transferToAnotherWarehouseRepository.findAll();
+        List<TransferToAnotherWarehouse> transferToAnotherWarehouseList = transferToAnotherWarehouseRepository.findAll();
+        if (transferToAnotherWarehouseList.isEmpty()){
+            throw new NotFoundException("Record is empty");
+        }
+        return transferToAnotherWarehouseList;
     }
 }

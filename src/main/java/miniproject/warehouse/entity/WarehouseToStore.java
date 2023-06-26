@@ -42,12 +42,6 @@ public class WarehouseToStore {
         this.createdAt = createdAt;
     }
 
-    public WarehouseToStore(Long id, Long quantity, Timestamp createdAt) {
-        this.id = id;
-        this.quantity = quantity;
-        this.createdAt = createdAt;
-    }
-
     public Long getId() {
         return id;
     }

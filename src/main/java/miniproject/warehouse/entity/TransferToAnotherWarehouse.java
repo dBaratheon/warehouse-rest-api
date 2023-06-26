@@ -43,14 +43,6 @@ public class TransferToAnotherWarehouse {
         this.warehouseDst = warehouseDst;
     }
 
-    public TransferToAnotherWarehouse(Long id, Timestamp createdAt, Goods goods, Warehouse warehouseSrc, Warehouse warehouseDst) {
-        this.id = id;
-        this.createdAt = createdAt;
-        this.goods = goods;
-        this.warehouseSrc = warehouseSrc;
-        this.warehouseDst = warehouseDst;
-    }
-
     public Long getId() {
         return id;
     }

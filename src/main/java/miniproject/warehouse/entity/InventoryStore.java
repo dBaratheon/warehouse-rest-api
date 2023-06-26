@@ -38,14 +38,6 @@ public class InventoryStore {
         this.store = store;
     }
 
-    public InventoryStore(Long id, Long quantity, Timestamp lastUpdated, Goods goods, Store store) {
-        this.id = id;
-        this.quantity = quantity;
-        this.lastUpdated = lastUpdated;
-        this.goods = goods;
-        this.store = store;
-    }
-
     public Long getId() {
         return id;
     }

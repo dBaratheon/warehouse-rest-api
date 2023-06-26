@@ -38,14 +38,6 @@ public class SupplyToWarehouse {
         this.warehouse = warehouse;
     }
 
-    public SupplyToWarehouse(Long id, Long quantity, Timestamp createdAt, Goods goods, Warehouse warehouse) {
-        this.id = id;
-        this.quantity = quantity;
-        this.createdAt = createdAt;
-        this.goods = goods;
-        this.warehouse = warehouse;
-    }
-
     public Long getId() {
         return id;
     }

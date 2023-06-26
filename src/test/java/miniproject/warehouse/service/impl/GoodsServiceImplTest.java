@@ -32,6 +32,7 @@ class GoodsServiceImplTest {
         when(goodsRepository.save(any(Goods.class))).thenReturn(goods);
         Goods createdGoods = goodsService.createGoods(goods);
 
+        //Test
         assertNotNull(createdGoods);
         assertNotNull(createdGoods.getId());
         assertEquals(goods.getName(), createdGoods.getName());

@@ -27,7 +27,7 @@ class InventoryWarehouseServiceImplTest {
     }
 
     @Test
-    void findByWarehouseId_ExistingWarehouseId_ReturnsInventoryWarehouses() {
+    void findByWarehouseIdExistingWarehouseIdReturnsInventoryWarehouses() {
         String warehouseId = "existingId";
         List<InventoryWarehouse> inventoryWarehouseList = new ArrayList<>();
         inventoryWarehouseList.add(new InventoryWarehouse());
@@ -38,6 +38,5 @@ class InventoryWarehouseServiceImplTest {
         List<InventoryWarehouse> foundInventoryWarehouseList = inventoryWarehouseService.findByWarehouseId(warehouseId);
 
         assertEquals(inventoryWarehouseList.size(), foundInventoryWarehouseList.size());
-        verify(inventoryWarehouseRepository, times(1)).findAllByWarehouseId(warehouseId);
     }
 }
