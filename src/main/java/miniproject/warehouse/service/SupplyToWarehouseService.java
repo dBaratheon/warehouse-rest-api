@@ -1,13 +1,14 @@
 package miniproject.warehouse.service;
 
-import miniproject.warehouse.entity.Goods;
+import miniproject.warehouse.dto.TransferDto;
 import miniproject.warehouse.entity.SupplyToWarehouse;
-import miniproject.warehouse.entity.Warehouse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface SupplyToWarehouseService {
-    ResponseEntity<SupplyToWarehouse> supplyToWarehouse(Warehouse warehouseDestinationId, Goods goodsId, SupplyToWarehouse supplyToWarehouse);
-    List<SupplyToWarehouse> findAll();
+    ResponseEntity<SupplyToWarehouse> supplyToWarehouse(TransferDto transferDto);
+    Page<SupplyToWarehouse> findAllRecord(int pageNo, int pageSize);
 }

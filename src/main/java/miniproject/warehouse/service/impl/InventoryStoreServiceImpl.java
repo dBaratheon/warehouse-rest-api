@@ -5,6 +5,9 @@ import miniproject.warehouse.exception.NotFoundException;
 import miniproject.warehouse.repository.InventoryStoreRepository;
 import miniproject.warehouse.service.InventoryStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -14,12 +17,9 @@ public class InventoryStoreServiceImpl implements InventoryStoreService {
     private InventoryStoreRepository inventoryStoreRepository;
 
     @Override
-    public List<InventoryStore> findAll() {
-        List<InventoryStore> inventoryStoreList = inventoryStoreRepository.findAll();
-        if (inventoryStoreList.isEmpty()){
-            throw new NotFoundException("Inventory is empty");
-        }
-        return inventoryStoreList;
+    public Page<InventoryStore> findAllRecord(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return inventoryStoreRepository.findAll(pageable);
     }
 
     @Override

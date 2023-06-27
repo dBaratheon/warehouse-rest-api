@@ -1,35 +1,34 @@
 package miniproject.warehouse.controller;
 
-import miniproject.warehouse.entity.Goods;
 import miniproject.warehouse.entity.InventoryWarehouse;
-import miniproject.warehouse.entity.Warehouse;
-import miniproject.warehouse.repository.InventoryWarehouseRepository;
 import miniproject.warehouse.service.InventoryWarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/inventory/warehouse")
 public class InventoryWarehouseController {
     @Autowired
     private InventoryWarehouseService inventoryWarehouseService;
 
-    @GetMapping("/inventory/warehouse")
-    public List<InventoryWarehouse> findAllInventoryWarehouse(){
-        return inventoryWarehouseService.findAllInventoryWarehouse();
+    @GetMapping
+    public ResponseEntity<Page<InventoryWarehouse>> findAll(@RequestParam(defaultValue = "0") int pageNo,
+                                                            @RequestParam(defaultValue = "5") int pageSize) {
+        Page<InventoryWarehouse> page = inventoryWarehouseService.findAllRecord(pageNo, pageSize);
+        return ResponseEntity.ok(page);
     }
 
-    @GetMapping("/inventory/warehouse/{warehouseId}")
+    @GetMapping("/{warehouseId}")
     public List<InventoryWarehouse> findByWarehouseId(@PathVariable String warehouseId){
         return inventoryWarehouseService.findByWarehouseId(warehouseId);
     }
 
-    @GetMapping("/inventory/warehouse/goods/{goodsId}")
+    @GetMapping("/goods/{goodsId}")
     public List<InventoryWarehouse> findByGoodsId(@PathVariable String goodsId){
         return inventoryWarehouseService.findByGoodsId(goodsId);
     }
