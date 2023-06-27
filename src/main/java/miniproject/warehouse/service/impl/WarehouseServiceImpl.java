@@ -6,6 +6,9 @@ import miniproject.warehouse.exception.NotFoundException;
 import miniproject.warehouse.repository.WarehouseRepository;
 import miniproject.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -37,12 +40,9 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public List<Warehouse> findAllWarehouse() {
-        List<Warehouse> warehouses = warehouseRepository.findAll();
-        if (warehouses.isEmpty()){
-            throw new NotFoundException("Warehouse is empty");
-        }
-        return warehouses;
+    public Page<Warehouse> findAllRecord(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return warehouseRepository.findAll(pageable);
     }
 
     @Override

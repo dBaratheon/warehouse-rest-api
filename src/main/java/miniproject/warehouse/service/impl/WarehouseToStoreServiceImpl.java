@@ -1,14 +1,20 @@
 package miniproject.warehouse.service.impl;
 
+import miniproject.warehouse.dto.TransferDto;
 import miniproject.warehouse.entity.*;
 import miniproject.warehouse.exception.BadRequestException;
 import miniproject.warehouse.exception.NotFoundException;
 import miniproject.warehouse.repository.*;
 import miniproject.warehouse.service.WarehouseToStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,49 +35,53 @@ public class WarehouseToStoreServiceImpl implements WarehouseToStoreService {
     private InventoryWarehouseRepository inventoryWarehouseRepository;
 
     @Override
-    public ResponseEntity<WarehouseToStore> transferToStore(Warehouse warehouseSrc, Store storeDst, Goods goodsId, WarehouseToStore warehouse) {
-        WarehouseToStore warehouseToStore = warehouseRepository.findById(warehouseSrc.getId()).map(w -> {
-            InventoryStore newInventoryStore = new InventoryStore();
-            InventoryStore inventoryStore = inventoryStoreRepository.findFirstByStoreAndGoods(storeDst, goodsId);
-            InventoryWarehouse inventoryWarehouse = inventoryWarehouseRepository.findByWarehouseAndGoods(warehouseSrc, goodsId);
-            WarehouseToStore wts = new WarehouseToStore();
+    @Transactional
+    public ResponseEntity<WarehouseToStore> transferToStore(TransferDto transferDto) {
+        Warehouse warehouseSrc = warehouseRepository.findById(transferDto.getWarehouseSrc())
+                .orElseThrow(() -> new NotFoundException("Source warehouse not found"));
 
-            if (inventoryWarehouse.getQuantity() < warehouse.getQuantity()){
-                throw new BadRequestException("Quantity isn't enough");
-            }
-            else {
-                try {
-                    inventoryStore.setQuantity(inventoryStore.getQuantity() + warehouse.getQuantity());
-                    inventoryWarehouse.setQuantity(inventoryStore.getQuantity() - warehouse.getQuantity());
-                    inventoryStoreRepository.save(inventoryStore);
-                    inventoryWarehouseRepository.save(inventoryWarehouse);
-                }catch (Exception e){
-                    newInventoryStore.setStore(storeDst);
-                    newInventoryStore.setGoods(goodsId);
-                    newInventoryStore.setQuantity(warehouse.getQuantity());
-                    newInventoryStore.setLastUpdated(Timestamp.valueOf(LocalDateTime.now()));
-                    inventoryWarehouse.setQuantity(inventoryWarehouse.getQuantity() - warehouse.getQuantity());
-                    inventoryWarehouseRepository.save(inventoryWarehouse);
-                    inventoryStoreRepository.save(newInventoryStore);
-                }
-                inventoryWarehouseRepository.save(inventoryWarehouse);
-                wts.setWarehouseSrc(warehouseSrc);
-                wts.setStoreDst(storeDst);
-                wts.setGoods(goodsId);
-                wts.setQuantity(warehouse.getQuantity());
-                wts.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-            }
-            return warehouseToStoreRepository.save(wts);
-        }).orElseThrow(() -> new NotFoundException("Warehouse not found"));
-        return new ResponseEntity<>(warehouseToStore, HttpStatus.CREATED);
+        Store storeDst = storeRepository.findById(transferDto.getStoreDst())
+                .orElseThrow(() -> new NotFoundException("Destination store not found"));
+
+        Goods goods = goodsRepository.findById(transferDto.getGoods())
+                .orElseThrow(() -> new NotFoundException("Goods not found"));
+
+        InventoryWarehouse srcInventory = inventoryWarehouseRepository.findByWarehouseAndGoods(warehouseSrc, goods);
+        InventoryStore dstInventory = inventoryStoreRepository.findFirstByStoreAndGoods(storeDst, goods);
+
+        if (srcInventory == null) {
+            throw new NotFoundException("Inventory not found in source warehouse");
+        }
+
+        if (dstInventory == null) {
+            throw new NotFoundException("Inventory not found in destination warehouse");
+        }
+
+        if (srcInventory.getQuantity() < transferDto.getQuantity()) {
+            throw new BadRequestException("Insufficient quantity of goods");
+        }
+
+        srcInventory.setQuantity(srcInventory.getQuantity() - transferDto.getQuantity());
+        dstInventory.setQuantity(dstInventory.getQuantity() + transferDto.getQuantity());
+
+        WarehouseToStore warehouseToWarehouse = WarehouseToStore.builder()
+                .warehouseSrc(warehouseSrc)
+                .storeDst(storeDst)
+                .goods(goods)
+                .quantity(transferDto.getQuantity())
+                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+
+        inventoryStoreRepository.save(dstInventory);
+        inventoryWarehouseRepository.save(srcInventory);
+
+        WarehouseToStore savedTransfer = warehouseToStoreRepository.save(warehouseToWarehouse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTransfer);
     }
 
     @Override
-    public List<WarehouseToStore> findAll() {
-        List<WarehouseToStore> warehouseToStoreList = warehouseToStoreRepository.findAll();
-        if (warehouseToStoreList.isEmpty()){
-            throw new NotFoundException("Record is empty");
-        }
-        return warehouseToStoreList;
+    public Page<WarehouseToStore> findAllRecord(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return warehouseToStoreRepository.findAll(pageable);
     }
 }

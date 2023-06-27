@@ -1,31 +1,30 @@
 package miniproject.warehouse.controller;
 
-import miniproject.warehouse.entity.Goods;
+import miniproject.warehouse.dto.TransferDto;
 import miniproject.warehouse.entity.TransferToAnotherWarehouse;
-import miniproject.warehouse.entity.Warehouse;
 import miniproject.warehouse.service.TransferToAnotherWarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/transfer/wtw")
 public class TransferToAnotherWarehouseController {
     @Autowired
     TransferToAnotherWarehouseService transferToAnotherWarehouseService;
 
-    @PostMapping("/transfer/wtw/{warehouseSrc}/{warehouseDst}/{goodsId}")
-    public ResponseEntity<TransferToAnotherWarehouse> transfer(@PathVariable Warehouse warehouseSrc,
-                                                               @PathVariable Warehouse warehouseDst,
-                                                               @PathVariable Goods goodsId,
-                                                               @RequestBody TransferToAnotherWarehouse transfer){
-        return transferToAnotherWarehouseService.transfer(warehouseSrc, warehouseDst, goodsId, transfer);
+    @PostMapping
+    public ResponseEntity<TransferToAnotherWarehouse> transfer(@RequestBody TransferDto transferDto) {
+        return transferToAnotherWarehouseService.transfer(transferDto);
     }
 
-    @GetMapping("/transfer/wtw")
-    public List<TransferToAnotherWarehouse> findAll(){
-        return transferToAnotherWarehouseService.findAll();
+    @GetMapping
+    public ResponseEntity<Page<TransferToAnotherWarehouse>> findAll(@RequestParam(defaultValue = "0") int pageNo,
+                                                                    @RequestParam(defaultValue = "5") int pageSize) {
+        Page<TransferToAnotherWarehouse> page = transferToAnotherWarehouseService.findAllRecord(pageNo, pageSize);
+        return ResponseEntity.ok(page);
     }
 }

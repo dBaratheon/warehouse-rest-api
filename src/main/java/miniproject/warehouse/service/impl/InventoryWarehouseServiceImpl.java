@@ -5,6 +5,10 @@ import miniproject.warehouse.exception.NotFoundException;
 import miniproject.warehouse.repository.InventoryWarehouseRepository;
 import miniproject.warehouse.service.InventoryWarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,11 +37,8 @@ public class InventoryWarehouseServiceImpl implements InventoryWarehouseService 
     }
 
     @Override
-    public List<InventoryWarehouse> findAllInventoryWarehouse() {
-        List<InventoryWarehouse> inventoryWarehouseList = inventoryWarehouseRepository.findAll();
-        if (inventoryWarehouseList.isEmpty()){
-            throw new NotFoundException("Inventory is empty");
-        }
-        return inventoryWarehouseList;
+    public Page<InventoryWarehouse> findAllRecord(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return inventoryWarehouseRepository.findAll(pageable);
     }
 }

@@ -6,6 +6,9 @@ import miniproject.warehouse.exception.NotFoundException;
 import miniproject.warehouse.repository.GoodsRepository;
 import miniproject.warehouse.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -39,8 +42,9 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> findAllGoods() {
-        return goodsRepository.findAll();
+    public Page<Goods> findAllRecord(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return goodsRepository.findAll(pageable);
     }
 
     @Override

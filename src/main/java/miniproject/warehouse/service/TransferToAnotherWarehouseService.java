@@ -1,13 +1,13 @@
 package miniproject.warehouse.service;
 
-import miniproject.warehouse.entity.Goods;
+import miniproject.warehouse.dto.TransferDto;
 import miniproject.warehouse.entity.TransferToAnotherWarehouse;
-import miniproject.warehouse.entity.Warehouse;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface TransferToAnotherWarehouseService {
-    ResponseEntity<TransferToAnotherWarehouse> transfer(Warehouse warehouseSrc, Warehouse warehouseDst, Goods goods, TransferToAnotherWarehouse transfer);
-    List<TransferToAnotherWarehouse> findAll();
+    ResponseEntity<TransferToAnotherWarehouse> transfer(TransferDto transferRequest);
+    Page<TransferToAnotherWarehouse> findAllRecord(int pageNo, int pageSize);
 }
