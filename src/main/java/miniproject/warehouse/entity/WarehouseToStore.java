@@ -1,19 +1,27 @@
 package miniproject.warehouse.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "warehouse_to_store")
 public class WarehouseToStore {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long quantity;
+
     @Column(name = "created_at")
     private Timestamp createdAt;
 
@@ -32,61 +40,4 @@ public class WarehouseToStore {
     @JoinColumn(name = "storeid_dst", referencedColumnName = "store_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Store storeDst;
-
-
-    public WarehouseToStore() {
-    }
-
-    public WarehouseToStore(Long quantity, Timestamp createdAt) {
-        this.quantity = quantity;
-        this.createdAt = createdAt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Goods getGoods() {
-        return goods;
-    }
-
-    public void setGoods(Goods goods) {
-        this.goods = goods;
-    }
-
-    public Warehouse getWarehouseSrc() {
-        return warehouseSrc;
-    }
-
-    public void setWarehouseSrc(Warehouse warehouseSrc) {
-        this.warehouseSrc = warehouseSrc;
-    }
-
-    public Store getStoreDst() {
-        return storeDst;
-    }
-
-    public void setStoreDst(Store storeDst) {
-        this.storeDst = storeDst;
-    }
 }
