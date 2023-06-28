@@ -24,7 +24,7 @@ class WarehouseServiceImplTest {
     }
 
     @Test
-    void createWarehouseValidInputReturnsCreatedWarehouse() {
+    void createWarehouse() {
         Warehouse warehouse = new Warehouse();
         warehouse.setName("Test Warehouse");
         warehouse.setLocation("Test Location");

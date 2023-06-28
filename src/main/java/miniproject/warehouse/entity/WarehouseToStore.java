@@ -1,5 +1,6 @@
 package miniproject.warehouse.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class WarehouseToStore {
 
     private Long quantity;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     @Column(name = "created_at")
     private Timestamp createdAt;
 

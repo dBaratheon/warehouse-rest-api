@@ -1,19 +1,24 @@
 package miniproject.warehouse.service.impl;
 
 import miniproject.warehouse.entity.InventoryStore;
+import miniproject.warehouse.exception.NotFoundException;
 import miniproject.warehouse.repository.InventoryStoreRepository;
-import org.junit.jupiter.api.*;
+import miniproject.warehouse.service.InventoryStoreService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-class InventoryStoreServiceImplTest {
+public class InventoryStoreServiceImplTest {
 
     @Mock
     private InventoryStoreRepository inventoryStoreRepository;
@@ -22,21 +27,22 @@ class InventoryStoreServiceImplTest {
     private InventoryStoreServiceImpl inventoryStoreService;
 
     @BeforeEach
-    void setUp() {
+    public void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void findAllReturnsAllInventoryStores() {
-        List<InventoryStore> inventoryStoreList = new ArrayList<>();
-        inventoryStoreList.add(new InventoryStore());
-        inventoryStoreList.add(new InventoryStore());
+    public void testFindAllRecord() {
+        List<InventoryStore> inventoryStores = new ArrayList<>();
+        inventoryStores.add(new InventoryStore());
+        inventoryStores.add(new InventoryStore());
+        Page<InventoryStore> inventoryStorePage = new PageImpl<>(inventoryStores);
 
-        when(inventoryStoreRepository.findAll()).thenReturn(inventoryStoreList);
+        Mockito.when(inventoryStoreRepository.findAll(Mockito.any(PageRequest.class))).thenReturn(inventoryStorePage);
 
-        List<InventoryStore> foundInventoryStoreList = inventoryStoreService.findAll();
+        Page<InventoryStore> result = inventoryStoreService.findAllRecord(0, 10);
 
-        assertEquals(inventoryStoreList.size(), foundInventoryStoreList.size());
-        verify(inventoryStoreRepository, times(1)).findAll();
+        Assertions.assertEquals(inventoryStorePage, result);
+        Mockito.verify(inventoryStoreRepository).findAll(Mockito.any(PageRequest.class));
     }
 }

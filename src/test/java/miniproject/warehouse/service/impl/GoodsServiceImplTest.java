@@ -24,7 +24,7 @@ class GoodsServiceImplTest {
     }
 
     @Test
-    void createGoodsValidInputReturnsCreatedGoods() {
+    void createGoods() {
         Goods goods = new Goods();
         goods.setName("Test Goods");
         goods.setCategory("Test Category");

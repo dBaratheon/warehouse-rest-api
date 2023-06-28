@@ -24,7 +24,7 @@ class StoreServiceImplTest {
     }
 
     @Test
-    void createStoreValidInputReturnsCreatedStore() {
+    void createStore() {
         Store store = new Store();
         store.setName("Test Store");
         store.setLocation("Test Location");

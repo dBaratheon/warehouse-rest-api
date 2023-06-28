@@ -1,19 +1,22 @@
 package miniproject.warehouse.service.impl;
 
 import miniproject.warehouse.entity.InventoryWarehouse;
+import miniproject.warehouse.exception.NotFoundException;
 import miniproject.warehouse.repository.InventoryWarehouseRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-class InventoryWarehouseServiceImplTest {
+public class InventoryWarehouseServiceImplTest {
 
     @Mock
     private InventoryWarehouseRepository inventoryWarehouseRepository;
@@ -22,21 +25,22 @@ class InventoryWarehouseServiceImplTest {
     private InventoryWarehouseServiceImpl inventoryWarehouseService;
 
     @BeforeEach
-    void setUp() {
+    public void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void findByWarehouseIdExistingWarehouseIdReturnsInventoryWarehouses() {
-        String warehouseId = "existingId";
-        List<InventoryWarehouse> inventoryWarehouseList = new ArrayList<>();
-        inventoryWarehouseList.add(new InventoryWarehouse());
-        inventoryWarehouseList.add(new InventoryWarehouse());
+    public void testFindAllRecord() {
+        List<InventoryWarehouse> inventoryWarehouses = new ArrayList<>();
+        inventoryWarehouses.add(new InventoryWarehouse());
+        inventoryWarehouses.add(new InventoryWarehouse());
+        Page<InventoryWarehouse> inventoryWarehousePage = new PageImpl<>(inventoryWarehouses);
 
-        when(inventoryWarehouseRepository.findAllByWarehouseId(warehouseId)).thenReturn(inventoryWarehouseList);
+        Mockito.when(inventoryWarehouseRepository.findAll(Mockito.any(PageRequest.class))).thenReturn(inventoryWarehousePage);
 
-        List<InventoryWarehouse> foundInventoryWarehouseList = inventoryWarehouseService.findByWarehouseId(warehouseId);
+        Page<InventoryWarehouse> result = inventoryWarehouseService.findAllRecord(0, 10);
 
-        assertEquals(inventoryWarehouseList.size(), foundInventoryWarehouseList.size());
+        Assertions.assertEquals(inventoryWarehousePage, result);
+        Mockito.verify(inventoryWarehouseRepository).findAll(Mockito.any(PageRequest.class));
     }
 }
